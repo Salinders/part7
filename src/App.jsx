@@ -1,5 +1,7 @@
+
 import ReactDOM from 'react-dom/client'
 import { useState } from 'react'
+import { useField } from './hooks'
 import {
   BrowserRouter as Router,
   Routes,
@@ -69,17 +71,26 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const content = useField('text')
+  const author = useField('text')
+  const url = useField('text')
+
+
+  const handleReset = () => {
+    content.reset()
+    author.reset()
+    url.reset()
+
+  }
+
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: url.value,
       votes: 0
     })
     navigate('/anecdotes')
@@ -91,18 +102,26 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...content}
+          />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...author}
+          />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
+          <input {...url}
+          />
         </div>
         <button>create</button>
+
       </form>
+      <button onClick={handleReset}>reset</button>
+
+
+
     </div>
   )
 
@@ -125,12 +144,16 @@ const App = () => {
       id: 2
     }
   ])
-
   const [notification, setNotification] = useState('')
+
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`A new anecdote ${anecdote.content} was created`)
+    setTimeout(() => {
+      setNotification('')
+    }, 4000)
   }
 
   const anecdoteById = (id) =>
@@ -155,9 +178,12 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <div>
+        {notification}
         <Menu />
       </div>
       <Routes>
+        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
+
         <Route path="anecdotes" element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path="anecdotes/:id" element={<Anecdote anecdote={anecdote} />} />
         <Route path="/about" element={<About />} />
