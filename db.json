@@ -1,0 +1,41 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "custom-hooks are awesome!"
+    },
+    {
+      "id": 2,
+      "content": "best feature ever <3"
+    },
+    {
+      "content": "is you ready",
+      "id": 3
+    },
+    {
+      "content": "im not the greatest",
+      "id": 4
+    },
+    {
+      "content": "is he here",
+      "id": 5
+    }
+  ],
+  "persons": [
+    {
+      "id": 1,
+      "name": "mluukkai",
+      "number": "040-5483923"
+    },
+    {
+      "id": 2,
+      "name": "hellas",
+      "number": "012-123123"
+    },
+    {
+      "name": "hindigy",
+      "number": "45884658786",
+      "id": 3
+    }
+  ]
+}
