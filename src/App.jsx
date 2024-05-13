@@ -12,8 +12,7 @@ import {
   useNavigate,
   useMatch
 } from "react-router-dom"
-
-
+import { Table, Form, Button, Alert, FormLabel } from 'react-bootstrap'
 const Menu = () => {
   const padding = {
     paddingRight: 5
@@ -40,12 +39,23 @@ const Anecdote = ({ anecdote }) => (
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id}>
-        <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
-      </li>)}
-    </ul>
-  </div>
+    <Table striped>
+      <tbody>
+        {anecdotes.map(anecdote =>
+          <tr key={anecdote.id}>
+            <td>
+              <Link to={`/anecdotes/${anecdote.id}`}>
+                {anecdote.content}
+              </Link>
+            </td>
+            <td>
+              {anecdote.author}
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </Table>
+  </div >
 )
 
 const About = () => (
@@ -100,25 +110,34 @@ const CreateNew = (props) => {
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          content
-          <input {...content}
+        <Form.Group>
+          <Form.Label>content:</Form.Label>
+          <Form.Control
+            type="text"
+            name="content"
+            {...content}
           />
-        </div>
-        <div>
-          author
-          <input {...author}
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>author:</Form.Label>
+          <Form.Control
+            type="text"
+            name="author"
+            {...author}
           />
-        </div>
-        <div>
-          url for more info
-          <input {...url}
+        </Form.Group><Form.Group>
+          <Form.Label>url:</Form.Label>
+          <Form.Control
+            type="text"
+            name="url"
+            {...url}
           />
-        </div>
-        <button>create</button>
-
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          create
+        </Button>
       </form>
-      <button onClick={handleReset}>reset</button>
+      <Button variant="primary" type="submit" onClick={handleReset}>reset</Button>
 
 
 
@@ -175,10 +194,14 @@ const App = () => {
     : null
 
   return (
-    <div>
+    <div class='container'>
       <h1>Software anecdotes</h1>
       <div>
-        {notification}
+        {(notification &&
+          <Alert variant="success">
+            {notification}
+          </Alert>
+        )}
         <Menu />
       </div>
       <Routes>
